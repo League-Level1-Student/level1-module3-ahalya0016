@@ -5,6 +5,9 @@ package jukebox;
  */
 
 
+import java.awt.Button;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -12,7 +15,10 @@ import java.net.URL;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import javazoom.jl.player.advanced.AdvancedPlayer;
@@ -20,15 +26,27 @@ import javazoom.jl.player.advanced.AdvancedPlayer;
 /*   If you don't have javazoom.jar in your project, you can download it from here: http://bit.ly/javazoom
  *   Right click your project and add it as a JAR (Under Java Build Path > Libraries).*/
 
-public class Jukebox implements Runnable {
+public class Jukebox implements Runnable, ActionListener {
+	JFrame frame = new JFrame();
+	
+	JPanel panel = new JPanel();
+	
+	JButton button1 = new JButton("Song 1");
+	JButton button2 = new JButton("Song 2");
+	
+	//Song song1 = new Song("https://freesound.org/people/ValentinSosnitskiy/sounds/218803/");
+	Song song1 = new Song("218803__valentinsosnitskiy__positive-tune.mp3");
+	//Song song2 = new Song("https://freesound.org/people/ValentinSosnitskiy/sounds/231341/");
+	Song song2 = new Song ("231341_valentinsosnitskiy_electric-guitar-etude-in-dm.wav");
 
     public void run() {
 
 		// 1. Find an mp3 on your computer or on the Internet.
 		// 2. Create a Song object for that mp3
-    	Song song = new Song("https://freesound.org/people/ValentinSosnitskiy/sounds/218803/");
+    	
 		// 3. Play the Song
-    	song.play();
+    	song1.play();
+    	//song2.play();
 		/*
 		 * 4. Create a user interface for your Jukebox so that the user can to
 		 * choose which song to play. You can use can use a different button for
@@ -36,6 +54,16 @@ public class Jukebox implements Runnable {
 		 * cover is clicked, stop the currently playing song, and play the one
 		 * that was selected.
 		 */
+    	
+    	frame.setVisible(true);
+    	frame.setSize(300,300);
+    	frame.add(panel);
+    	panel.add(button1);
+    	panel.add(button2);
+    	button1.addActionListener(this);
+    	button2.addActionListener(this);
+
+		
     }
     
     
@@ -44,6 +72,22 @@ public class Jukebox implements Runnable {
 		URL imageURL = getClass().getResource(fileName);
 		Icon icon = new ImageIcon(imageURL);
 		return new JLabel(icon);
+	}
+
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		// TODO Auto-generated method stub
+		JButton buttonClicked = (JButton) arg0.getSource();
+		
+		if (buttonClicked == button1) {
+			song1.play();
+		}
+		
+		if (buttonClicked == button2) {
+			song1.play();
+		}
+			
 	}
 
 }
